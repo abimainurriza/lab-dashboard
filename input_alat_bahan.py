@@ -16,7 +16,7 @@ def show_input_alat_bahan(load_data, execute_query):
     with tab1:
         with st.form("form_tambah_alat", clear_on_submit=True):
             st.subheader("Tambah Alat/Bahan Baru")
-            nama_alat = st.text_input("Nama Alat/Bahan")
+            nama_alat = st.text_input("Nama Alat/Bahan", placeholder="Masukan Nama Alat atau Bahan")
             
             col1, col2 = st.columns(2)
             with col1:
@@ -26,7 +26,7 @@ def show_input_alat_bahan(load_data, execute_query):
                     format_func=lambda x: x.capitalize()
                 )
             with col2:
-                stok = st.number_input("Stok Awal", min_value=0, step=1, value=0)
+                stok = st.number_input("Jumlah Stok", min_value=0, step=1, value=0)
             
             submit_btn = st.form_submit_button("Tambah")
             
@@ -75,7 +75,7 @@ def show_input_alat_bahan(load_data, execute_query):
             id_del = opsi_hapus[pilihan_nama]
             curr_del = df_alat[df_alat['item_id'] == id_del].iloc[0]
             
-            st.error(f"**Konfirmasi:** Anda akan menghapus **{pilihan_nama}**\n\nKategori: {curr_del['category']} | Stok saat ini: {curr_del['quantity']}")
+            st.error(f"**Konfirmasi:** Anda akan menghapus **{pilihan_nama}**\n\nKategori: {curr_del['category']} | Jumlah Stok saat ini: {curr_del['quantity']}")
             
             if st.button("Hapus", type="primary", key="btn_del_alat"):
                 query = "DELETE FROM lab_items WHERE item_id = %s"
@@ -96,7 +96,7 @@ def show_input_alat_bahan(load_data, execute_query):
             'item_id': 'ID', 
             'item_name': 'Nama Alat/Bahan', 
             'category': 'Kategori',
-            'quantity': 'Stok'
+            'quantity': 'Jumlah Stok'
         })
         st.dataframe(display_df, use_container_width=True, hide_index=True)
     else:

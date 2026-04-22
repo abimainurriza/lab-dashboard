@@ -13,8 +13,8 @@ def show_input_guru(load_data, execute_query):
     with tab1:
         with st.form("form_tambah", clear_on_submit=True):
             st.subheader("Tambah Guru")
-            nama = st.text_input("Nama Lengkap")
-            mapel = st.text_input("Mata Pelajaran")
+            nama = st.text_input("Nama Lengkap", placeholder="Masukan Nama Guru")
+            mapel = st.text_input("Mata Pelajaran", placeholder="Masukan Mata Pelajaran")
             
             submit_btn = st.form_submit_button("Tambah")
             
