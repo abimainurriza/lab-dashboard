@@ -1,5 +1,17 @@
 import streamlit as st
+from db_manager import load_data, execute_query
+from dashboard_bi import show_dashboard
+from input_alat_bahan import show_input_alat_bahan
+from input_guru import show_input_guru
+from input_peminjaman import show_input_peminjaman
 
+# --- 1. KONFIGURASI HALAMAN ---
+st.set_page_config(
+    page_title="Lab Analytics Al-Azhar 17", 
+    layout="wide"
+)
+
+# Custom CSS untuk padding atas
 st.markdown("""
     <style>
     .block-container {
@@ -9,68 +21,23 @@ st.markdown("""
     </style>
     """, unsafe_allow_html=True)
 
-# 1. KONFIGURASI HALAMAN (Tab Browser)
-st.set_page_config(
-    page_title="Lab Analytics Al-Azhar 17", 
-    # page_icon="🧪",
-    layout="wide"
-)
+# Navigasi Sidebar
+st.sidebar.image("logosmp.png", width=100) # Ganti logo sekolah jika ada
+st.sidebar.write("Dashboard BI Peminjaman Lab IPA")
+menu = st.sidebar.radio("Daftar Menu:", ["Dashboard", "Peminjaman", "Guru", "Alat & Bahan"])
 
-# 2. SIDEBAR (Identitas & Navigasi)
-with st.sidebar:
-    st.image("logosmp.png", width=70)
-    st.header("SMP Islam Al Azhar 17")
-    st.markdown("---")
+# Logika Perpindahan Halaman
+if menu == "Dashboard":
+    show_dashboard(load_data)
     
-    st.title("Filter Panel")
-    # Pilihan Guru (Dummy dulu karena kita fokus tampilan)
-    st.selectbox("Pilih Guru:", ["Semua Guru", "Guru A", "Guru B"])
-    st.date_input("Rentang Waktu:")
-    
-    st.markdown("---")
-    st.caption("Dashboard v1.0 - Operator Lab")
+elif menu == "Peminjaman":
+    show_input_peminjaman(load_data, execute_query)
 
-# 3. AREA UTAMA (Header Section)
-st.title("Dashboard Analisis Laboratorium")
-st.write("Selamat datang Operator! Berikut adalah ringkasan aktivitas laboratorium.")
-st.write("Tahun 2022-2026.")
-st.markdown("---")
+elif menu == "Guru":
+    show_input_guru(load_data, execute_query)
 
-# 4. BAGIAN METRICS (Tiap Metrik Dibungkus Kotak)
-m1, m2, m3, m4 = st.columns(4)
+elif menu == "Alat & Bahan":
+    show_input_alat_bahan(load_data, execute_query)
 
-with m1:
-    with st.container(border=True):
-        st.metric(value="120", label="Total Peminjaman")
-
-with m2:
-    with st.container(border=True):
-        st.metric(value="15", label="Total Alat")
-
-with m3:
-    with st.container(border=True):
-        st.metric(value="3", label="Guru Aktif")
-
-st.markdown("---")
-
-# 5. BAGIAN LAYOUT VISUALISASI (Placeholder)
-# Kita bagi menjadi dua area besar: Kiri untuk Tabel/Daftar, Kanan untuk Grafik
-left_col, right_col = st.columns([1.2, 2]) # Angka 2 berarti kolom kanan lebih lebar
-
-with left_col:
-    st.subheader("Daftar Aktivitas Terakhir")
-    # Tempat sementara untuk tabel data
-    st.info("Area ini nanti akan berisi tabel 5 peminjaman terbaru.")
-    # Kotak kosong untuk visualisasi tabel
-    st.empty() 
-
-with right_col:
-    st.subheader("Tren Penggunaan Lab")
-    # Tempat sementara untuk grafik
-    st.warning("Area ini nanti akan berisi grafik frekuensi peminjaman.")
-    # Kotak kosong untuk visualisasi grafik
-    st.empty()
-
-# 6. BAGIAN FOOTER (Informasi Tambahan)
-st.markdown("---")
-st.write("*Tips: Gunakan filter di sebelah kiri untuk menyaring data berdasarkan guru atau tanggal.*")
+st.sidebar.markdown("---")
+st.sidebar.caption("© 2026 Magang IT Al-Azhar")
