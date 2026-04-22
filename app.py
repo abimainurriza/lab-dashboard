@@ -39,5 +39,21 @@ elif menu == "Guru":
 elif menu == "Alat & Bahan":
     show_input_alat_bahan(load_data, execute_query)
 
+# Di app.py dalam section sidebar
+st.sidebar.markdown("---")
+st.sidebar.subheader("Laporan")
+
+# Query data lengkap untuk didownload
+df_download = load_data("SELECT * FROM lab_bookings")
+
+if not df_download.empty:
+    csv = df_download.to_csv(index=False).encode('utf-8')
+    st.sidebar.download_button(
+        label="Download Data CSV",
+        data=csv,
+        file_name='laporan_lab_ipa.csv',
+        mime='text/csv',
+    )
+
 st.sidebar.markdown("---")
 st.sidebar.caption("© 2026 Magang IT Al-Azhar")

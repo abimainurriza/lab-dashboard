@@ -76,7 +76,7 @@ def show_dashboard(load_data):
             # Insight Guru
             top_teacher = df_guru.iloc[-1] # Ambil yang terakhir karena tadi di-sort ascending
             with st.expander("💡 Analisis Guru"):
-                st.write(f"**{top_teacher['Nama_Guru']}** adalah pengguna paling aktif (**{top_teacher['Total']} kali**).")
+                st.write(f"**{top_teacher['Nama_Guru']}** adalah pengguna paling aktif sebanyak (**{top_teacher['Total']} kali**).")
 
     st.markdown("---")
     col_grafik3, col_grafik4 = st.columns(2)
