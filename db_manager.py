@@ -3,11 +3,23 @@ import pandas as pd
 import mysql.connector
 
 def get_connection():
+    # return mysql.connector.connect(
+    #     host="localhost",
+    #     user="root",
+    #     password="",
+    #     database="db_lab_management"
+    # )
+
+    # Membaca kredensial dari Streamlit Secrets
+    db_config = st.secrets["mysql"]
+
     return mysql.connector.connect(
-        host="localhost",
-        user="root",
-        password="",
-        database="db_lab_management"
+        host=db_config["host"],
+        port=db_config["port"],
+        user=db_config["user"],
+        password=db_config["password"],
+        database=db_config["database"],
+        ssl_disabled=False,  # Wajib untuk Aiven
     )
 
 def load_data(query):
