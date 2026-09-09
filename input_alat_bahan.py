@@ -42,7 +42,6 @@ def show_input_alat_bahan(load_data, execute_query):
 
     with tab2:
         if not df_alat.empty:
-            # Mapping Nama untuk Update agar lebih mudah
             opsi_upd = {f"{row['item_name']} (ID: {row['item_id']})": row['item_id'] for _, row in df_alat.iterrows()}
             pilihan_upd = st.selectbox("Pilih Alat yang akan diubah", options=list(opsi_upd.keys()), key="upd_name_sel")
             

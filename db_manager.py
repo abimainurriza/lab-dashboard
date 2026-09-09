@@ -24,7 +24,7 @@ def execute_query(query, data=None):
             cursor.execute(query, data)
         else:
             cursor.execute(query)
-        conn.commit() # Menyimpan perubahan ke database
+        conn.commit()
         cursor.close()
         conn.close()
         return True

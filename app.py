@@ -4,6 +4,7 @@ from dashboard_bi import show_dashboard
 from input_alat_bahan import show_input_alat_bahan
 from input_guru import show_input_guru
 from input_peminjaman import show_input_peminjaman
+from rekomendasi import show_rekomendasi
 
 # --- 1. KONFIGURASI HALAMAN ---
 st.set_page_config(
@@ -22,14 +23,17 @@ st.markdown("""
     """, unsafe_allow_html=True)
 
 # Navigasi Sidebar
-st.sidebar.image("logosmp.png", width=100) # Ganti logo sekolah jika ada
+st.sidebar.image("logosmp.png", width=90) 
 st.sidebar.write("Dashboard BI Peminjaman Lab IPA")
-menu = st.sidebar.radio("Daftar Menu:", ["Dashboard", "Peminjaman", "Guru", "Alat & Bahan"])
+menu = st.sidebar.radio("Daftar Menu:", ["Dashboard","Rekomendasi", "Peminjaman", "Guru", "Alat & Bahan"])
 
 # Logika Perpindahan Halaman
 if menu == "Dashboard":
     show_dashboard(load_data)
     
+elif menu == "Rekomendasi":
+    show_rekomendasi()
+
 elif menu == "Peminjaman":
     show_input_peminjaman(load_data, execute_query)
 
@@ -39,11 +43,11 @@ elif menu == "Guru":
 elif menu == "Alat & Bahan":
     show_input_alat_bahan(load_data, execute_query)
 
-# Di app.py dalam section sidebar
+# app.py dalam section sidebar
 st.sidebar.markdown("---")
 st.sidebar.subheader("Laporan")
 
-# Query data lengkap untuk didownload
+# Query data lengkap untuk download
 df_download = load_data("SELECT * FROM lab_bookings")
 
 if not df_download.empty:

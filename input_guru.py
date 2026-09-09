@@ -20,12 +20,9 @@ def show_input_guru(load_data, execute_query):
             
             if submit_btn:
                 if nama and mapel:
-                    # Pastikan nama kolom 'full_name' dan 'subject' 
-                    # Sesuai dengan yang ada di HeidiSQL
                     query = "INSERT INTO teachers (full_name, subject) VALUES (%s, %s)"
                     data = (nama, mapel)
                     
-                    # Kita panggil execute_query
                     if execute_query(query, data):
                         st.success(f"Berhasil menambah guru: {nama}")
                         st.rerun()
@@ -53,8 +50,6 @@ def show_input_guru(load_data, execute_query):
 
     with tab3:
         if not df_guru.empty:
-            # 1. Buat mapping Nama ke ID agar user tidak perlu menghafal angka ID
-            # Kita tampilkan "Nama (Mapel)" supaya kalau ada nama sama, bisa dibedakan
             opsi_guru = {f"{row['full_name']} ({row['subject']})": row['teacher_id'] for _, row in df_guru.iterrows()}
             
             # 2. Dropdown pilihan berdasarkan Nama

@@ -15,7 +15,7 @@ def show_dashboard(load_data):
     total_alat = load_data("SELECT COUNT(*) as total FROM lab_items").iloc[0]['total']
     total_pinjam = load_data("SELECT COUNT(*) as total FROM lab_bookings").iloc[0]['total']
 
-    # Bungkus tiap kolom dengan container (card)
+    # Bungkus tiap kolom dengan container 
     with col1:
         with st.container(border=True):
             st.metric("Total Alat", f"{total_alat} Unit")
@@ -28,7 +28,6 @@ def show_dashboard(load_data):
         with st.container(border=True):
             st.metric("Status Sistem", "Online")
 
-    # Membuat dua kolom dengan rasio yang sama (50:50)
     col_grafik1, col_grafik2 = st.columns(2)
 
     # --- KOLOM KIRI: GRAFIK TAHUNAN ---
@@ -38,21 +37,17 @@ def show_dashboard(load_data):
 
         if not df_tahun.empty:
             fig_tahun = px.area(df_tahun, x='Tahun', y='Total', markers=True, color_discrete_sequence=['#007BFF'])
-            # Mengatur margin agar grafik tidak terlalu mepet
             fig_tahun.update_layout(margin=dict(l=20, r=20, t=30, b=20), height=350)
             st.plotly_chart(fig_tahun, use_container_width=True)
             
             # --- INSIGHT TAHUNAN ---
             if not df_tahun.empty:
                 with st.expander("💡 Lihat Detail Penggunaan Per Tahun"):
-                    # Kita urutkan dari tahun terbaru ke terlama agar lebih informatif
                     df_sorted = df_tahun.sort_values('Tahun', ascending=False)
                     
                     for index, row in df_sorted.iterrows():
                         tahun_v = int(row['Tahun'])
                         total_v = int(row['Total'])
-                        
-                        # Menampilkan teks per baris
                         st.write(f"📅 Tahun **{tahun_v}**: Terjadi **{total_v}** kali penggunaan lab.")
 
     # --- KOLOM KANAN: GURU TERAKTIF ---
@@ -65,11 +60,9 @@ def show_dashboard(load_data):
         """)
 
         if not df_guru.empty:
-            # Urutkan agar yang paling banyak ada di atas pada grafik horizontal
             df_guru = df_guru.sort_values('Total', ascending=True)
             fig_guru = px.bar(df_guru, x='Total', y='Nama_Guru', orientation='h', 
                             color='Total', color_continuous_scale='Blues')
-            # Mengatur tinggi agar sejajar dengan grafik sebelah
             fig_guru.update_layout(margin=dict(l=20, r=20, t=30, b=20), height=350, showlegend=False)
             st.plotly_chart(fig_guru, use_container_width=True)
             
@@ -158,7 +151,6 @@ def show_dashboard(load_data):
         """)
         
         if not df_hari.empty:
-            # Menerjemahkan hari ke Bahasa Indonesia untuk grafik
             hari_map = {
                 'Monday': 'Senin', 'Tuesday': 'Selasa', 'Wednesday': 'Rabu', 
                 'Thursday': 'Kamis', 'Friday': 'Jumat', 'Saturday': 'Sabtu', 'Sunday': 'Minggu'

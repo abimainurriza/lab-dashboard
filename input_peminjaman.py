@@ -74,18 +74,15 @@ def show_input_peminjaman(load_data, execute_query):
             
             with col_simpan:
                 if st.button("Simpan", use_container_width=True):
-                    # 1. Simpan Header
                     q_h = "INSERT INTO lab_bookings (teacher_id, booking_date, class_name, lesson_topic, student_count) VALUES (%s,%s,%s,%s,%s)"
                     params_h = (opsi_guru[nama_peminjam], tgl_pinjam, kelas, topik, jml_siswa)
                     
                     if execute_query(q_h, params_h):
-                        # 2. Ambil ID terakhir
                         df_id = load_data("SELECT MAX(booking_id) as last_id FROM lab_bookings")
                         
                         if not df_id.empty:
                             last_id = int(df_id.iloc[0]['last_id'])
                             
-                            # 3. Simpan Detail dengan Looping
                             sukses_semua = True
                             for itm in st.session_state.keranjang_pinjam:
                                 q_d = "INSERT INTO booking_details (booking_id, item_id, quantity) VALUES (%s, %s, %s)"
@@ -102,7 +99,6 @@ def show_input_peminjaman(load_data, execute_query):
                         else:
                             st.error("Gagal mendapatkan ID terakhir.")
 
-            # SEJAJAR DENGAN with col_simpan (Keluar dari blok IF simpan)
             with col_reset:
                 if st.button("Kosongkan", type="primary", use_container_width=True, key="btn_reset_manual"):
                     st.session_state.keranjang_pinjam = []
